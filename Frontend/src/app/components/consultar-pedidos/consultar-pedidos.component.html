@@ -1,0 +1,57 @@
+<div class="button-div">
+    <button class="button" mat-raised-button color="primary" (click)="createPedido()">Novo Pedido</button>
+</div>
+
+<table mat-table [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="nomeCliente">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome Cliente </th>
+        <td mat-cell *matCellDef="let element"> {{element.nomeCliente}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="emailCliente">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Email Cliente </th>
+        <td mat-cell *matCellDef="let element"> {{element.emailCliente}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="pago">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Pago </th>
+        <td mat-cell *matCellDef="let element"> {{element.pago ? 'Sim' : 'Não'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="itens">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Produto &nbsp;/&nbsp; Valor Unitário &nbsp;/&nbsp; Quantidade
+        </th>
+        <td mat-cell *matCellDef="let element">
+            <ng-container *ngFor="let item of element.itens">
+                <div>
+                    {{item.nomeProduo}} &nbsp; / &nbsp; {{item.valorUnitario | currency: 'BRL': 'symbol': '1.2-2'}}
+                    &nbsp; / &nbsp; {{item.quantidade}}
+                </div>
+            </ng-container>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="valorTotal">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor Total </th>
+        <td mat-cell *matCellDef="let element"> {{element.valorTotal | currency : 'BRL': 'symbol': '1.2-2'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Ações </th>
+        <td mat-cell *matCellDef="let element">
+            <button class="icon" mat-icon-button (click)="updatePedido(element)" aria-label="Edit">
+                <mat-icon style="color: blue;">edit</mat-icon>
+            </button>
+            <button class="icon" mat-icon-button (click)="deletePedido(element)" aria-label="Delete">
+                <mat-icon style="color: red;">delete</mat-icon>
+            </button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
