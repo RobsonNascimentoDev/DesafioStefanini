@@ -1,4 +1,6 @@
-﻿using Domain.PedidoRoot.Entity;
+﻿using Domain.ItensPedidoRoot.Dto;
+using Domain.PedidoRoot.Dto;
+using Domain.PedidoRoot.Entity;
 using InterfaceApplication.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,11 +20,29 @@ namespace Infra.Repository
             _context = context;
         }
 
-        public async Task<List<Pedido>> GetPedidosAsync()
+        public async Task<List<PedidoDto>> GetPedidosAsync()
         {
-            return await _context.Pedidos.Include(p => p.Itens)
-                                            .ThenInclude(i => i.Produto)
-                                            .ToListAsync();
+            var query = await _context.Pedidos.Include(p => p.Itens)
+                                                .ThenInclude(i => i.Produto)
+                                                .ToListAsync();
+
+
+            return query.Select(p => new PedidoDto
+            {
+                Id = p.Id,
+                NomeCliente = p.NomeCliente,
+                EmailCliente = p.EmailCliente,
+                Pago = p.Pago,
+                ValorTotal = p.Itens.Sum(i => i.Quantidade * i.Produto.Valor),
+                Itens = p.Itens.Select(i => new ItensPedidoDto
+                {
+                    Id = i.Id,
+                    IdProduto = i.IdProduto,
+                    NomeProduo = i.Produto.NomeProduto,
+                    ValorUnitario = i.Produto.Valor,
+                    Quantidade = i.Quantidade
+                }).ToList()
+            }).ToList();
         }
 
         public async Task<Pedido> GetPedidoByIdAsync(int id)
@@ -34,6 +54,16 @@ namespace Infra.Repository
 
         public async Task CreatePedidoAsync(Pedido pedido)
         {
+            foreach (var item in pedido.Itens)
+            {
+                var productExists = await _context.Produtos.FindAsync(item.IdProduto);
+
+                if (productExists is null)
+                    _context.Produtos.Add(item.Produto);
+                else
+                    item.Produto = productExists;
+            }
+
             _context.Pedidos.Add(pedido);
             await _context.SaveChangesAsync();
         }

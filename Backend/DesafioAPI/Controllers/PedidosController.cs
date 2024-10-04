@@ -32,8 +32,16 @@ namespace APIDesafio.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Pedido pedido)
         {
-            var createdPedido = await _pedidoService.CreatePedidoAsync(pedido);
-            return CreatedAtAction(nameof(Get), new { id = createdPedido.Id }, createdPedido);
+            try
+            {
+                var createdPedido = await _pedidoService.CreatePedidoAsync(pedido);
+                return CreatedAtAction(nameof(Get), new { id = createdPedido.Id }, createdPedido);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         [HttpPut("{id}")]

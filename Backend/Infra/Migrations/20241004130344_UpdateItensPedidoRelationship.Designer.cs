@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241004033210_UpdateItensPedidoRelationship")]
+    [Migration("20241004130344_UpdateItensPedidoRelationship")]
     partial class UpdateItensPedidoRelationship
     {
         /// <inheritdoc />

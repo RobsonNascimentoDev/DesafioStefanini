@@ -1,4 +1,5 @@
-﻿using Domain.PedidoRoot.Entity;
+﻿using Domain.PedidoRoot.Dto;
+using Domain.PedidoRoot.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace InterfaceApplication.Repository
 {
     public interface IPedidoRepository
     {
-        Task<List<Pedido>> GetPedidosAsync();
+        Task<List<PedidoDto>> GetPedidosAsync();
         Task<Pedido> GetPedidoByIdAsync(int id);
         Task CreatePedidoAsync(Pedido pedido);
         Task UpdatePedidoAsync(Pedido pedido);

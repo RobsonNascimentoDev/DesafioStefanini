@@ -1,4 +1,5 @@
-﻿using Domain.PedidoRoot.Entity;
+﻿using Domain.PedidoRoot.Dto;
+using Domain.PedidoRoot.Entity;
 using InterfaceApplication.Repository;
 using InterfaceApplication.Service;
 
@@ -13,7 +14,7 @@ namespace Application.Service
             _pedidoRepository = pedidoRepository;
         }
 
-        public async Task<List<Pedido>> GetPedidosAsync()
+        public async Task<List<PedidoDto>> GetPedidosAsync()
         {
             return await _pedidoRepository.GetPedidosAsync();
         }

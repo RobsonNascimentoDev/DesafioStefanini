@@ -1,5 +1,7 @@
 ﻿using Application.Service;
+using Domain.ItensPedidoRoot.Dto;
 using Domain.ItensPedidoRoot.Entity;
+using Domain.PedidoRoot.Dto;
 using Domain.PedidoRoot.Entity;
 using Domain.ProdutoRoot.Entity;
 using Infra;
@@ -12,12 +14,12 @@ using Xunit;
 
 namespace Test
 {
-    public class PedidoRepositoryTests
+    public class PedidoServiceTests
     {
         private readonly PedidoService _pedidoService;
         private readonly Mock<IPedidoRepository> _pedidoRepositoryMock;
 
-        public PedidoRepositoryTests()
+        public PedidoServiceTests()
         {
             _pedidoRepositoryMock = new Mock<IPedidoRepository>();
             _pedidoService = new PedidoService(_pedidoRepositoryMock.Object);
@@ -27,10 +29,12 @@ namespace Test
         public async Task GetPedidosAsync_ReturnsListOfPedidos()
         {
             // Arrange
-            var pedidos = new List<Pedido>
+            var pedidos = new List<PedidoDto>
             {
-                CreatePopulatedPedido(),
-                CreatePopulatedPedido()
+                CreatePopulatedPedidoDto(),
+                CreatePopulatedPedidoDto(),
+                CreatePopulatedPedidoDto(),
+                CreatePopulatedPedidoDto()
             };
 
             _pedidoRepositoryMock.Setup(repo => repo.GetPedidosAsync()).ReturnsAsync(pedidos);
@@ -96,7 +100,7 @@ namespace Test
         }
 
 
-        private Pedido CreatePopulatedPedido()
+        private PedidoDto CreatePopulatedPedidoDto()
         {
             Random random = new Random();
 
@@ -114,38 +118,35 @@ namespace Test
                 Valor = random.NextDouble() * 500 + 1
             };
 
-            var itensPedido1 = new ItensPedido
+            var itensPedido1 = new ItensPedidoDto
             {
                 Id = random.Next(1, 1000),
-                IdPedido = 1,
                 IdProduto = produto1.Id,
-                Quantidade = random.Next(1, 10),
-                Produto = produto1
+                NomeProduo = produto1.NomeProduto,
+                ValorUnitario = produto1.Valor,
+                Quantidade = random.Next(1, 10)
             };
 
-            var itensPedido2 = new ItensPedido
+            var itensPedido2 = new ItensPedidoDto
             {
                 Id = random.Next(1, 1000),
-                IdPedido = 1,
                 IdProduto = produto2.Id,
-                Quantidade = random.Next(1, 10),
-                Produto = produto2
+                NomeProduo = produto2.NomeProduto,
+                ValorUnitario = produto2.Valor,
+                Quantidade = random.Next(1, 10)
             };
 
-            var pedido = new Pedido
+            var pedidoDto = new PedidoDto
             {
                 Id = random.Next(1, 1000),
                 NomeCliente = $"Cliente {random.Next(1, 1000)}",
                 EmailCliente = $"cliente{random.Next(1, 1000)}@example.com",
-                DataCriacao = DateTime.Now.AddDays(-random.Next(0, 30)),
                 Pago = random.Next(0, 2) == 1,
-                Itens = new List<ItensPedido> { itensPedido1, itensPedido2 }
+                ValorTotal = (itensPedido1.Quantidade * itensPedido1.ValorUnitario) + (itensPedido2.Quantidade * itensPedido2.ValorUnitario),
+                Itens = new List<ItensPedidoDto> { itensPedido1, itensPedido2 }
             };
 
-            itensPedido1.Pedido = pedido;
-            itensPedido2.Pedido = pedido;
-
-            return pedido;
+            return pedidoDto;
         }
     }
 }
