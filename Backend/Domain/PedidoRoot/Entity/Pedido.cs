@@ -9,6 +9,6 @@ namespace Domain.PedidoRoot.Entity
         public string EmailCliente { get; set; }
         public DateTime DataCriacao { get; set; }
         public bool Pago { get; set; }
-        public List<ItensPedido> Itens { get; set; }
+        public List<ItensPedido> Itens { get; set; } = new List<ItensPedido>();
     }
 }

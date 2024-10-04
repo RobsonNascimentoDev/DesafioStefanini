@@ -1,5 +1,5 @@
-﻿using Application.Interfaces;
-using Domain.PedidoRoot.Entity;
+﻿using Domain.PedidoRoot.Entity;
+using InterfaceApplication.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIDesafio.Controllers

@@ -1,6 +1,6 @@
 ﻿using Domain.PedidoRoot.Entity;
 
-namespace Application.Interfaces
+namespace InterfaceApplication.Service
 {
     public interface IPedidoService
     {

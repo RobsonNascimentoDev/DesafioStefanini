@@ -1,5 +1,5 @@
-﻿using Application.Interfaces;
-using Domain.PedidoRoot.Entity;
+﻿using Domain.PedidoRoot.Entity;
+using InterfaceApplication.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infra.Repository
 {
-    public class PedidoRepository : IPedidoService
+    public class PedidoRepository : IPedidoRepository
     {
         private readonly AppDbContext _context;
 
@@ -20,20 +20,22 @@ namespace Infra.Repository
 
         public async Task<List<Pedido>> GetPedidosAsync()
         {
-            return await _context.Pedidos.Include(p => p.Itens).ThenInclude(i => i.Produto).ToListAsync();
+            return await _context.Pedidos.Include(p => p.Itens)
+                                            .ThenInclude(i => i.Produto)
+                                            .ToListAsync();
         }
 
         public async Task<Pedido> GetPedidoByIdAsync(int id)
         {
-            return await _context.Pedidos.Include(p => p.Itens).ThenInclude(i => i.Produto)
-                .FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.Pedidos.Include(p => p.Itens)
+                                            .ThenInclude(i => i.Produto)
+                                            .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<Pedido> CreatePedidoAsync(Pedido pedido)
+        public async Task CreatePedidoAsync(Pedido pedido)
         {
             _context.Pedidos.Add(pedido);
             await _context.SaveChangesAsync();
-            return pedido;
         }
 
         public async Task UpdatePedidoAsync(Pedido pedido)

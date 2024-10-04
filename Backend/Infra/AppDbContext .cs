@@ -17,18 +17,18 @@ namespace Infra
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ItensPedido>()
-                .HasKey(ip => new { ip.IdPedido, ip.IdProduto });
+                .HasKey(ip => ip.Id);
 
             // Relationships
             modelBuilder.Entity<ItensPedido>()
-                .HasOne(ip => ip.Pedido)
-                .WithMany(p => p.Itens)
-                .HasForeignKey(ip => ip.IdPedido);
-
-            modelBuilder.Entity<ItensPedido>()
                 .HasOne(ip => ip.Produto)
-                .WithMany()
+                .WithMany() 
                 .HasForeignKey(ip => ip.IdProduto);
+
+            modelBuilder.Entity<Pedido>()
+                .HasMany(p => p.Itens)
+                .WithOne()
+                .HasForeignKey(ip => ip.IdPedido);
         }
 
     }
