@@ -56,10 +56,13 @@ namespace Infra.Repository
         {
             foreach (var item in pedido.Itens)
             {
-                var productExists = await _context.Produtos.FindAsync(item.IdProduto);
+                var productExists = await _context.Produtos.FindAsync(item.Produto.Id);
 
                 if (productExists is null)
+                {
                     _context.Produtos.Add(item.Produto);
+                    await _context.SaveChangesAsync();
+                }   
                 else
                     item.Produto = productExists;
             }

@@ -15,8 +15,6 @@ namespace Domain.ItensPedidoRoot.Entity
         public int IdPedido { get; set; }
         public int IdProduto { get; set; }
         public int Quantidade { get; set; }
-        //[JsonIgnore]
-        //public Pedido Pedido { get; set; }
         public Produto Produto { get; set; }
     }
 }

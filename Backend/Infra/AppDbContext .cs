@@ -16,19 +16,28 @@ namespace Infra
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ItensPedido>()
-                .HasKey(ip => ip.Id);
 
-            // Relationships
-            modelBuilder.Entity<ItensPedido>()
-                .HasOne(ip => ip.Produto)
-                .WithMany() 
-                .HasForeignKey(ip => ip.IdProduto);
+            modelBuilder.Entity<ItensPedido>(entity =>
+            {
+                entity.HasKey(ip => ip.Id);
+
+                entity.Property(ip => ip.Id)
+                      .ValueGeneratedOnAdd();
+
+                // Relationships
+                entity.HasOne(ip => ip.Produto)
+                      .WithMany()
+                      .HasForeignKey(ip => ip.IdProduto);
+
+                entity.HasOne<Pedido>()
+                      .WithMany(p => p.Itens)
+                      .HasForeignKey(ip => ip.IdPedido);
+            });
 
             modelBuilder.Entity<Pedido>()
-                .HasMany(p => p.Itens)
-                .WithOne()
-                .HasForeignKey(ip => ip.IdPedido);
+                        .HasMany(p => p.Itens)
+                        .WithOne()
+                        .HasForeignKey(ip => ip.IdPedido);
         }
 
     }
