@@ -1,18 +1,18 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# Compiled output
+.vscode/settings.json
+
+# compiled output
 /dist
+/dist-server
 /tmp
 /out-tsc
-/bazel-out
 
-# Node
+# dependencies
 /node_modules
-npm-debug.log
-yarn-error.log
 
 # IDEs and editors
-.idea/
+/.idea
 .project
 .classpath
 .c9/
@@ -20,23 +20,39 @@ yarn-error.log
 .settings/
 *.sublime-workspace
 
-# Visual Studio Code
+# IDE - VSCode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-.history/*
 
-# Miscellaneous
+# misc
 /.angular/cache
-.sass-cache/
+/.sass-cache
 /connect.lock
 /coverage
 /libpeerconnection.log
+npm-debug.log
 testem.log
 /typings
 
-# System files
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+# System Files
 .DS_Store
 Thumbs.db
+
+# We use NPM, so, yarn files will be ignored
+yarn.lock
+yarn-debug.log*
+yarn-error.log*
+.yarn-integrity
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+package-lock.json
