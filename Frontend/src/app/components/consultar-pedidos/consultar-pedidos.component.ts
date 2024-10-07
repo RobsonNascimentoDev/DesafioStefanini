@@ -1,8 +1,10 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { PedidoService } from 'src/service/pedido.service';
+import { DeletarPedidoComponent } from '../deletar-pedido/deletar-pedido.component';
 
 @Component({
   selector: 'app-consultar-pedidos',
@@ -27,7 +29,8 @@ export class ConsultarPedidosComponent implements OnInit, AfterViewInit {
 
   constructor(
     private pedidoService: PedidoService,
-    private changeDetectorService: ChangeDetectorRef) { }
+    private changeDetectorService: ChangeDetectorRef,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getAllPedidos();
@@ -51,8 +54,6 @@ export class ConsultarPedidosComponent implements OnInit, AfterViewInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.changeDetectorService.detectChanges();
-
-        console.log(response)
       },
       error: (e) => {
         console.error(e);
@@ -68,8 +69,28 @@ export class ConsultarPedidosComponent implements OnInit, AfterViewInit {
     console.log("updatePedido")
   }
 
-  deletePedido(pedido: any): void {
-    console.log("deletePedido")
+  openModalDeletarPedido(element: any): void {
+    const dialogRef = this.dialog.open(DeletarPedidoComponent, {
+      width: '30%',
+      data: { nomeCliente: element.nomeCliente }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deletarPedido(element.id);
+      }
+    });
+  }
+
+  deletarPedido(id: number): void {
+    this.pedidoService.deletePedido(id).subscribe({
+      next: (response) => {
+        this.getAllPedidos();
+      },
+      error: (e) => {
+        console.error(e);
+      }
+    });
   }
 
 }

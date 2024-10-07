@@ -9,11 +9,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ConsultarPedidosComponent } from './components/consultar-pedidos/consultar-pedidos.component';
+import { DeletarPedidoComponent } from './components/deletar-pedido/deletar-pedido.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ConsultarPedidosComponent
+    ConsultarPedidosComponent,
+    DeletarPedidoComponent
   ],
   imports: [
     BrowserModule,
@@ -22,8 +25,9 @@ import { ConsultarPedidosComponent } from './components/consultar-pedidos/consul
     HttpClientModule,
     MatSortModule,
     MatPaginatorModule,
-    MatTableModule ,
-    MatIconModule
+    MatTableModule,
+    MatIconModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

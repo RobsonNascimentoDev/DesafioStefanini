@@ -1,0 +1,50 @@
+mat-dialog-content {
+    font-size: 16px;
+}
+
+mat-dialog-actions {
+    margin-top: 0 !important;
+}
+
+hr {
+    margin: 2% 0% 1% 0%;
+    padding: 1% 0% 1% 0%;
+    border: none;
+    border-top: 1px solid #e0e0e0;
+}
+
+mat-dialog-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+}
+
+button {
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 30%;
+}
+
+button[mat-button]:first-child {
+    color: white;
+    background-color: #616161;
+}
+
+button[mat-button]:first-child:hover {
+    background-color: #757575;
+}
+
+button[mat-button]:last-child {
+    color: white;
+    background-color: #d32f2f;
+}
+
+button[mat-button]:last-child:hover {
+    background-color: #c62828;
+}
+
+.mat-dialog-title {
+    margin: 0;
+    padding: 0;
+}
