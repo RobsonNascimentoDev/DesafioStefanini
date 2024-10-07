@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { PedidoService } from 'src/service/pedido.service';
 import { DeletarPedidoComponent } from '../deletar-pedido/deletar-pedido.component';
+import { SavePedidoComponent } from '../save-pedido/save-pedido.component';
 
 @Component({
   selector: 'app-consultar-pedidos',
@@ -61,12 +62,16 @@ export class ConsultarPedidosComponent implements OnInit, AfterViewInit {
     });
   }
 
-  createPedido(): void {
-    console.log("createPedido")
-  }
-
-  updatePedido(pedido: any): void {
-    console.log("updatePedido")
+  openModalSavePedido(idPedido: any): void {
+    const dialogRef = this.dialog.open(SavePedidoComponent, {
+      width: '35%',
+      data: { idPedido: idPedido }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getAllPedidos();
+      }
+    });
   }
 
   openModalDeletarPedido(element: any): void {

@@ -1,0 +1,33 @@
+button {
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 30%;
+}
+
+mat-dialog-actions {
+    justify-content: space-between;
+}
+
+mat-form-field {
+    width: 45%;
+}
+
+.fieldsColumns {
+    display: flex;
+    justify-content: space-between;
+}
+
+.center-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45%;
+}
+
+.spaceBetweenFields .mat-form-field {
+    margin-right: 5%;
+}
+
+
+

@@ -3,11 +3,6 @@ using Domain.PedidoRoot.Dto;
 using Domain.PedidoRoot.Entity;
 using InterfaceApplication.Repository;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infra.Repository
 {
@@ -19,7 +14,6 @@ namespace Infra.Repository
         {
             _context = context;
         }
-
         public async Task<List<PedidoDto>> GetPedidosAsync()
         {
             var query = await _context.Pedidos.Include(p => p.Itens)
@@ -56,7 +50,8 @@ namespace Infra.Repository
         {
             foreach (var item in pedido.Itens)
             {
-                var productExists = await _context.Produtos.FindAsync(item.Produto.Id);
+                var productExists = await _context.Produtos.FirstOrDefaultAsync(p => p.NomeProduto.Equals(item.Produto.NomeProduto) &&
+                                                                                     p.Valor == item.Produto.Valor);
 
                 if (productExists is null)
                 {

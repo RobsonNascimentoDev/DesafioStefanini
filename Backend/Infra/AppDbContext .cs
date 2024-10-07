@@ -24,7 +24,6 @@ namespace Infra
                 entity.Property(ip => ip.Id)
                       .ValueGeneratedOnAdd();
 
-                // Relationships
                 entity.HasOne(ip => ip.Produto)
                       .WithMany()
                       .HasForeignKey(ip => ip.IdProduto);

@@ -11,12 +11,21 @@ import { AppComponent } from './app.component';
 import { ConsultarPedidosComponent } from './components/consultar-pedidos/consultar-pedidos.component';
 import { DeletarPedidoComponent } from './components/deletar-pedido/deletar-pedido.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { SavePedidoComponent } from './components/save-pedido/save-pedido.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonModule } from '@angular/material/button';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
     AppComponent,
     ConsultarPedidosComponent,
-    DeletarPedidoComponent
+    DeletarPedidoComponent,
+    SavePedidoComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +36,14 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatPaginatorModule,
     MatTableModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatButtonModule,
+    MatNativeDateModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

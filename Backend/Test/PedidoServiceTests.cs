@@ -74,16 +74,60 @@ namespace Test
         }
 
         [Fact]
-        public async Task UpdatePedidoAsync_UpdatesPedido()
+        public async Task UpdatePedidoAsync_ExistingPedido_UpdatesCorrectly()
         {
             // Arrange
-            var pedido = new Pedido { Id = 1 };
+            var existingPedido = new Pedido
+            {
+                Id = 1,
+                NomeCliente = "Old Name",
+                EmailCliente = "oldemail@example.com",
+                DataCriacao = DateTime.Now,
+                Pago = false,
+                Itens =
+                [
+                    new() { Id = 1, Quantidade = 2, Produto = new Produto { Id = 1, NomeProduto = "Produto 1", Valor = 10 } }
+                ]};
+
+            var updatedPedido = new Pedido
+            {
+                Id = 1,
+                NomeCliente = "New Name",
+                EmailCliente = "newemail@example.com",
+                DataCriacao = DateTime.Now,
+                Pago = true,
+                Itens =
+                [
+                    new() { Id = 1, Quantidade = 3, Produto = new Produto { Id = 1, NomeProduto = "Produto 1", Valor = 15 } },
+                    new() { Id = 2, Quantidade = 1, Produto = new Produto { Id = 2, NomeProduto = "Produto 2", Valor = 20 } } // New item
+                ]};
+
+            _pedidoRepositoryMock.Setup(repo => repo.GetPedidoByIdAsync(existingPedido.Id)).ReturnsAsync(existingPedido);
 
             // Act
-            await _pedidoService.UpdatePedidoAsync(pedido);
+            await _pedidoService.UpdatePedidoAsync(updatedPedido);
 
             // Assert
-            _pedidoRepositoryMock.Verify(repo => repo.UpdatePedidoAsync(pedido), Times.Once);
+            _pedidoRepositoryMock.Verify(repo => repo.UpdatePedidoAsync(It.Is<Pedido>(p =>
+                p.Id == existingPedido.Id &&
+                p.NomeCliente == "New Name" &&
+                p.EmailCliente == "newemail@example.com" &&
+                p.Pago == true &&
+                p.Itens.Count == 2 &&
+                p.Itens.First(i => i.Id == 1).Quantidade == 3 &&
+                p.Itens.First(i => i.Id == 2).Quantidade == 1
+            )), Times.Once);
+        }
+
+        public async Task UpdatePedidoAsync_NonExistingPedido_ThrowsException()
+        {
+            // Arrange
+            var updatedPedido = new Pedido { Id = 1 };
+
+            _pedidoRepositoryMock.Setup(repo => repo.GetPedidoByIdAsync(updatedPedido.Id)).ReturnsAsync((Pedido)null);
+
+            // Act & Assert
+            await Assert.ThrowsAsync<Exception>(() => _pedidoService.UpdatePedidoAsync(updatedPedido));
         }
 
         [Fact]
